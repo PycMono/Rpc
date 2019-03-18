@@ -16,7 +16,7 @@ func Start(wg *sync.WaitGroup) {
 	}()
 
 	// 监听地址
-	listener, err := net.Listen("tcp", "10.254.0.162:8989")
+	listener, err := net.Listen("tcp", "192.168.1.174:8989")
 	if err != nil {
 		panic(errors.New(fmt.Sprintf("Listen Error: %s", err)))
 	}

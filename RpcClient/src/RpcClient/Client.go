@@ -88,11 +88,6 @@ func (clientObj *Client) getValidMessage() (int32, []byte, bool) {
 // id：需要添加到b前发送的数据
 // message：待发送的字节数组
 func (clientObj *Client) sendByteMessage(id int32, message []byte) {
-	//idBytes := intAndBytesUtil.Int32ToBytes(id, byterOrder)
-	//
-	//// 将idByte和b合并
-	//message = append(idBytes, message...)
-
 	// 获得数组的长度
 	contentLength := len(message)
 
@@ -103,7 +98,10 @@ func (clientObj *Client) sendByteMessage(id int32, message []byte) {
 	message = append(header, message...)
 
 	// 发送消息
-	clientObj.conn.Write(message)
+	if _, err := clientObj.conn.Write(message); err != nil {
+		fmt.Println(fmt.Sprintf("发送数据报错err=%v", err))
+		logUtil.ErrorLog(fmt.Sprintf("发送数据报错err=%v", err))
+	}
 }
 
 // 创建新的客服端对象
@@ -111,9 +109,9 @@ func (clientObj *Client) sendByteMessage(id int32, message []byte) {
 // conn：连接对象
 // 返回值：
 // 1.客服端对象
-func NewClient(conn net.Conn)*Client  {
-	return  &Client{
-		conn:conn,
-		content:make([]byte,0,1024),
+func NewClient(conn net.Conn) *Client {
+	return &Client{
+		conn:    conn,
+		content: make([]byte, 0, 1024),
 	}
 }

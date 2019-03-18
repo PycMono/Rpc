@@ -12,7 +12,7 @@ import (
 
 func StartClient(wg sync.WaitGroup)  {
 	// 连接对象
-	conn,err:= net.DialTimeout("tcp","10.254.0.162:8989", 2*time.Second)
+	conn,err:= net.DialTimeout("tcp","192.168.1.174:8989", 2*time.Second)
 	if err!=nil{
 		fmt.Println(fmt.Sprintf("RpcClient.StartClient连接报错,err=%v",err))
 	}

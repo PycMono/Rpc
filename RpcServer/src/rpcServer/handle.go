@@ -64,7 +64,7 @@ func handleReceiveData(clientObj *Client) {
 	for {
 		receiveData, exists := clientObj.getReceiveData()
 		if !exists {
-			return
+			break
 		}
 
 		if len(receiveData) == 0 {
@@ -79,6 +79,8 @@ func handleReceiveData(clientObj *Client) {
 			fmt.Println(fmt.Sprintf("处理数据报错msg=%v", err))
 			continue
 		}
+
+		fmt.Println(fmt.Sprintf("cliendID=%d,接收到了消息%s", clientObj.GetID(), requestObj.MethodName))
 
 		// 数据处理
 		CallFunction(requestObj)
