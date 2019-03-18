@@ -2,8 +2,8 @@ package impl
 
 import (
 	"fmt"
-	"moqikaka.com/RpcClient/src/Enum"
-	"moqikaka.com/RpcClient/src/Slot"
+	"moqikaka.com/Rpc/RpcClient/src/Enum"
+	"moqikaka.com/Rpc/RpcClient/src/Slot"
 )
 
 func init()  {

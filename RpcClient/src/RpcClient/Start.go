@@ -7,11 +7,12 @@ import (
 	"net"
 	"sync"
 	"time"
+	"moqikaka.com/Rpc/RpcServer/src/model"
 )
 
 func StartClient(wg sync.WaitGroup)  {
 	// 连接对象
-	conn,err:= net.DialTimeout("tcp","192.168.1.174:8989", 2*time.Second)
+	conn,err:= net.DialTimeout("tcp","10.254.0.162:8989", 2*time.Second)
 	if err!=nil{
 		fmt.Println(fmt.Sprintf("RpcClient.StartClient连接报错,err=%v",err))
 	}
@@ -62,22 +63,33 @@ func handleClient(clientObj *Client) {
 	}
 }
 
-func handleSendData(clientObj *Client)  {
-	for   {
-			time.Sleep(time.Second*3)
+func handleSendData(clientObj *Client) {
+	for {
+		time.Sleep(time.Second * 3)
 
-			person:=&Person{
-				Name:"张三",
-				Age:10,
+		person := &Person{
+			Name: "张三",
+			Age:  10,
+		}
+
+		parameters := make([]interface{}, 0)
+		parameters=append(parameters,person)
+
+		requestObj := &model.RequestObject{
+			MethodName: "11",
+			ModuleName: "fdsaf",
+			Parameters:parameters,
+		}
+
+		if b, err := json.Marshal(requestObj); err != nil {
+			logUtil.NormalLog(fmt.Sprintf("序列化请求数据%v出错", requestObj), logUtil.Error)
+		} else {
+			// 发送数据
+			if clientObj != nil {
+				clientObj.sendByteMessage(1, b)
 			}
-			if b, err := json.Marshal(person); err != nil {
-				logUtil.NormalLog(fmt.Sprintf("序列化请求数据%v出错", person), logUtil.Error)
-			} else {
-				// 发送数据
-				if clientObj != nil {
-					clientObj.sendByteMessage(1, b)
-				}
-			}
+		}
+
 	}
 }
 

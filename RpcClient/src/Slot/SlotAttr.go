@@ -2,7 +2,7 @@ package Slot
 
 import (
 	"fmt"
-	"moqikaka.com/RpcClient/src/Enum"
+	"moqikaka.com/Rpc/RpcClient/src/Enum"
 )
 
 // 属性信息

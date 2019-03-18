@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"moqikaka.com/RpcClient/src/RpcClient"
-	_ "moqikaka.com/RpcClient/src/Slot/impl"
+	"moqikaka.com/Rpc/RpcClient/src/RpcClient"
+	_ "moqikaka.com/Rpc/RpcClient/src/Slot/impl"
 	"sync"
 	"time"
 )
