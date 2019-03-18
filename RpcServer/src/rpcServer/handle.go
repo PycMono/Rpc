@@ -3,6 +3,7 @@ package rpcServer
 import (
 	"encoding/json"
 	"fmt"
+	"moqikaka.com/Rpc/RpcServer/src/model"
 	"moqikaka.com/goutil/debugUtil"
 	"moqikaka.com/goutil/logUtil"
 	"net"
@@ -25,15 +26,15 @@ func handleConn(conn net.Conn) {
 	fmt.Println(fmt.Sprintf("handleConn客服端连接数量%d", GetClientCount()))
 
 	// 是否退出和客服端发送消息
-	isQuitSendChan := make(chan bool, 1)
+	ch := make(chan bool, 1)
 	// 处理消息发送
-	//go handleSendData(clientObj, isQuitSendChan)
+	go handleSendData(clientObj, ch)
 
 	defer func() {
 		logUtil.ErrorLog(fmt.Sprintf("删除玩家clientID=%d", clientObj.GetID()))
 		clientObj.Quit()
 		URegister(clientObj) // 删除玩家连接
-		isQuitSendChan <- true
+		ch <- true
 	}()
 
 	// 无限循环，接收消息，处理消息
@@ -72,8 +73,7 @@ func handleReceiveData(clientObj *Client) {
 			continue
 		}
 
-		fmt.Println(string(receiveData))
-		requestObj := new(Person)
+		requestObj := new(model.RequestObject)
 		err := json.Unmarshal(receiveData, requestObj)
 		if err != nil {
 			fmt.Println(fmt.Sprintf("处理数据报错msg=%v", err))
@@ -81,6 +81,7 @@ func handleReceiveData(clientObj *Client) {
 		}
 
 		// 数据处理
+		CallFunction(requestObj)
 	}
 }
 

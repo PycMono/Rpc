@@ -1,7 +1,7 @@
 package main
 
 import (
-	"moqikaka.com/RpcServer/src/rpcServer"
+	"moqikaka.com/Rpc/RpcServer/src/rpcServer"
 	"sync"
 )
 
